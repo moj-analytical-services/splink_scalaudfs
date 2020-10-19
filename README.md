@@ -1,15 +1,16 @@
-# Using Scala UDFs for Data Linkage in Pyspark
+#  splink_scalaudfs
 
-an extension of the example provided in [1]
-
-
-
-
-Phillip has created an example of a UDF defined in Scala, callable from PySpark,
+This module was started as an extension of an example provided in [1]
+Phillip Lee (ONS) has created an example of a UDF defined in Scala, callable from PySpark,
 that wraps a call to JaroWinklerDistance from Apache commons.
 
-My intention is to add [more text distance and similarity metrics from Apache Commons](https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/similarity/package-summary.html) 
-for use in fuzzy matching in Pyspark
+
+After understanding how this mechanism worked the intention was to add [more text distance and similarity metrics from Apache Commons](https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/similarity/package-summary.html) 
+for use in fuzzy matching in Pyspark in [splink](https://github.com/moj-analytical-services/splink). 
+Down the line some additional utility functions were added. More functions will be added for sure as time goes on ... 
+
+Current plan is to make this package available through the maven/ivy repositories (think PyPI in Python) as `uk.gov.moj.dash.linkage`
+so that it can be accessed more easily from AWS-Glue jobs
 
 
 
@@ -20,7 +21,7 @@ for use in fuzzy matching in Pyspark
 
 v.0.0.7
 
-* Added DualArrayExplode UDF . Also added Logit and Expit UDFs
+* Added DualArrayExplode UDF . Also added Logit and Expit UDFs (experimental). Added alternate encoding of Double Metaphone from Apache Commons 
 
 
 v.0.0.6
@@ -54,7 +55,7 @@ v.0.0.1
 
 ## Usage
 
-To build the Jar:
+To build the Jar (currently the Maven Build System is used):
 
     mvn package
     
@@ -77,7 +78,9 @@ spark.udf.registerJavaFunction('jaccard_sim', 'uk.gov.moj.dash.linkage.JaccardSi
 spark.udf.registerJavaFunction('cosine_distance', 'uk.gov.moj.dash.linkage.CosineDistance',\ 
                                 pyspark.sql.types.DoubleType())
                                 
-
+.
+.
+.
 
 from pyspark.sql import types as T
 rt = T.ArrayType(T.StructType([T.StructField("_1",T.StringType()), 
