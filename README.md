@@ -13,7 +13,7 @@ Current plan is to make this package available through the maven/ivy repositorie
 so that it can be accessed more easily from AWS-Glue jobs
 
 
-
+---
 
 
 ## Usage
@@ -75,6 +75,8 @@ If you dont have one ,installing either OpenJDK or [AWS Correto JDK](https://aws
 
 #### Install sdkman
 
+
+
 An easy way to install `Scala` on your macbook is to use `sdkman`
 
 - open a new terminal and run 
@@ -94,15 +96,22 @@ if you use zsh ensure that these lines are the last lines of your .zshrc file.
 
 
 
-`#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+```shell
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/MYUSERNAME/.sdkman"
-[[ -s "/Users/MYUSERNAME/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/MYUSERNAME/.sdkman/bin/sdkman-init.sh"`
+[[ -s "/Users/MYUSERNAME/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/MYUSERNAME/.sdkman/bin/sdkman-init.sh" 
+
+```
 
 
-If they are not make them so!
+where `MYUSERNAME` is your mac username.If they are not make them so!
+
+
 
 
 #### Install Scala via sdkman
+
+
 
 It is important to install a version of Scala that is in the 2.11 to 2.12 range as these are the ones compatible with Spark 2.4.5
 
@@ -126,7 +135,9 @@ Run `scala -version` and `scalac -version` to check
 ###  Maven? How can I install this on my macbook?
 
 
+
 Manual way:
+
 
 
 * To install Maven on Mac OS X operating system, download the latest version from the Apache Maven site, select the Maven binary tar.gz file, for example: apache-maven-3.3.9-bin.tar.gz to to Downloads/ 
@@ -145,7 +156,9 @@ Manual way:
 * Test that everything has been installed fine by running `java -version` and `mvn -version`  on your bash prompt
 
 
+
 sdkman way:
+
 
 
 `sdk install maven`
@@ -158,9 +171,14 @@ lol. sdkman is quite useful isnt it?
 
 ###  Ok everything installed. How can I build a jar file to use with Pyspark?
 
+
+
 * Go to the root folder of this repo (where the .pom file is)
 
+
 * Then run `mvn package`
+
+
 
 
 ---
