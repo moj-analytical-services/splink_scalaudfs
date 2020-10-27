@@ -94,12 +94,54 @@ spark.udf.registerJavaFunction(name='DualArrayExplode',
 ```
 
 
-###  Maven? How can I install this on my macbook?
+###  JVM? How can I install this on my macbook?
 
 Maven is written in Java (and primarily used for building JVM programs). 
 * the major Maven prerequisite is a Java JDK. 
+
 If you dont have one ,installing either OpenJDK or [AWS Correto JDK](https://aws.amazon.com/blogs/opensource/amazon-corretto-no-cost-distribution-openjdk-long-term-support/) is recommended.Oracle JDK is not anymore.
 
+
+
+###  Scala? How can I install this on my macbook?
+
+An easy way to install `Scala` on your macbook is to use `sdkman`
+
+- open a new terminal and run 
+
+`curl -s "https://get.sdkman.io" | bash`
+
+and follow the instructions on screen
+
+- close the terminal. Open a new one and run 
+
+`source "$HOME/.sdkman/bin/sdkman-init.sh"`
+    
+- run `sdk version` on the terminal in order to check your installation of sdkman was successful
+
+
+
+It is important to install a version of Scala that is in the 2.11 to 2.12 range as these are the ones compatible with Spark 2.4.5
+
+
+Now that you have `sdkman` installed run 
+
+`sdk install scala 2.12.10`
+
+
+
+
+voila. you have Scala now on your machine.
+
+
+Run `scala -version` and `scalac -version` to check
+
+
+
+###  Maven? How can I install this on my macbook?
+
+
+Manual way:
 
 
 * To install Maven on Mac OS X operating system, download the latest version from the Apache Maven site, select the Maven binary tar.gz file, for example: apache-maven-3.3.9-bin.tar.gz to to Downloads/ 
@@ -117,7 +159,25 @@ If you dont have one ,installing either OpenJDK or [AWS Correto JDK](https://aws
  
 * Test that everything has been installed fine by running `java -version` and `mvn -version`  on your bash prompt
 
-* Then `mvn package`
+
+SDKMAN way:
+
+
+`sdk install maven`
+
+
+lol. sdkman is quite useful isnt it?
+
+
+
+###  Ok everything installed. How can I build a jar file to use with Pyspark?
+
+* Go to the root folder of this repo (where the .pom file is)
+
+* Then run `mvn package`
+
+
+
 
 
 
