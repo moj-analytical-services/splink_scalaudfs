@@ -40,7 +40,9 @@ spark.udf.registerJavaFunction('jaccard_sim', 'uk.gov.moj.dash.linkage.JaccardSi
                                 
 spark.udf.registerJavaFunction('cosine_distance', 'uk.gov.moj.dash.linkage.CosineDistance',\ 
                                 pyspark.sql.types.DoubleType())
-                                
+
+spark.udf.registerJavaFunction('sqlEscape', 'uk.gov.moj.dash.linkage.sqlEscape',\ 
+                                pyspark.sql.types.StringType())                        
 .
 .
 .
@@ -52,7 +54,34 @@ rt = T.ArrayType(T.StructType([T.StructField("_1",T.StringType()),
 spark.udf.registerJavaFunction(name='DualArrayExplode', 
             javaClassName='uk.gov.moj.dash.linkage.DualArrayExplode', returnType=rt)
                                 
-                                
+.
+.
+.
+
+
+rt2 = T.ArrayType(
+    T.StructType((
+        T.StructField(
+            "place1",
+            T.StructType((
+                T.StructField("lat", T.DoubleType()),
+                T.StructField("long", T.DoubleType())
+            ))
+        ),
+        T.StructField(
+            "place2",
+            T.StructType((
+                T.StructField("lat", T.DoubleType()),
+                T.StructField("long", T.DoubleType())
+            ))
+        )
+    ))
+)
+
+                               
+spark.udf.registerJavaFunction(name='latlongexplode', 
+            javaClassName='uk.gov.moj.dash.linkage.latlongexplode', returnType=rt2)
+
                                 
 ```
 
@@ -187,6 +216,13 @@ lol. sdkman is quite useful isnt it?
 
 
 ## Progress
+
+
+v.0.0.8
+
+* Removed Logit and Expit UDFs
+* added latlongexplode UDF
+* added escapeSQL
 
 
 v.0.0.7
