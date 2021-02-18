@@ -10,6 +10,7 @@ import org.apache.spark.sql.catalyst.expressions.Literal
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.api.java.UDF2
 import org.apache.spark.sql.api.java.UDF1
+import org.apache.spark.sql.Row
 import org.apache.commons.text.similarity
 import org.apache.commons.codec.language
 
@@ -236,22 +237,22 @@ object DualArrayExplode {
   }
 }
 
-class LatLongexplode extends UDF2[Seq[(Double,Double)], Seq[(Double,Double)],  Seq[((Double,Double),(Double,Double))]]  {
-  override def call(x: Seq[(Double,Double)], y: Seq[(Double,Double)]): Seq[((Double,Double),(Double,Double))] = { 
+class latlongexplode extends UDF2[Seq[Row], Seq[Row],  Seq[(Row,Row)]]  {
+  override def call(x: Seq[Row], y: Seq[Row]): Seq[(Row,Row)] = { 
 
-val LatLongexplode =  (x: Seq[(Double,Double)], y: Seq[(Double,Double)]) => {
+val latlongexplode =  (x: Seq[Row], y: Seq[Row]) => {
  
     for (a <- x; b <-y) yield (a,b)
 
 }
 
-LatLongexplode(x,y)
+latlongexplode(x,y)
 
   }
 }
 
-object LatLongexplode {
-  def apply(): LatLongexplode = {
-    new LatLongexplode()
+object latlongexplode {
+  def apply(): latlongexplode = {
+    new latlongexplode()
   }
 }
