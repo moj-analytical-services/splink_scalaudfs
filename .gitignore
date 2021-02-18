@@ -25,3 +25,19 @@ out
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+.metals
+.metals/
+
+
+
+# sbt specific
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/

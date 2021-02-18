@@ -1,44 +1,27 @@
 /**
   * Simple Scala wrappers to turn an existing string similarity functions into UDFs
+  * Additionaly some useful utilities are included
   */
 package uk.gov.moj.dash.linkage
 
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.expressions.UserDefinedFunction
-
+import org.apache.spark.sql.catalyst.expressions.Literal
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.api.java.UDF2
 import org.apache.spark.sql.api.java.UDF1
-
-
 import org.apache.commons.text.similarity
 import org.apache.commons.codec.language
 
 
-import scala.math.log
-import scala.math.exp
- 
-class Logit extends UDF1[Double, Double] {
-  override def call(x: Double): Double =  (log(x / (1.0 - x))).toDouble
+class sqlEscape extends UDF1[String, String] {
+  override def call(s: String): String = Literal(s).sql
 }
 
 
-object Logit {
-  def apply(): Logit = {
-    new Logit()
-  }
-}
-
-
-
-class Expit extends UDF1[Double, Double] {
-  override def call(x: Double): Double =  (1.0 / (1.0 + exp(-x))).toDouble
-}
-
-
-object Expit {
-  def apply(): Expit = {
-    new Expit()
+object sqlEscape {
+  def apply(): sqlEscape = {
+    new sqlEscape()
   }
 }
 
@@ -250,5 +233,25 @@ class DualArrayExplode extends UDF2[Seq[String], Seq[String],  Seq[(String,Strin
 object DualArrayExplode {
   def apply(): DualArrayExplode = {
     new DualArrayExplode()
+  }
+}
+
+class LatLongexplode extends UDF2[Seq[(Double,Double)], Seq[(Double,Double)],  Seq[((Double,Double),(Double,Double))]]  {
+  override def call(x: Seq[(Double,Double)], y: Seq[(Double,Double)]): Seq[((Double,Double),(Double,Double))] = { 
+
+val LatLongexplode =  (x: Seq[(Double,Double)], y: Seq[(Double,Double)]) => {
+ 
+    for (a <- x; b <-y) yield (a,b)
+
+}
+
+LatLongexplode(x,y)
+
+  }
+}
+
+object LatLongexplode {
+  def apply(): LatLongexplode = {
+    new LatLongexplode()
   }
 }
