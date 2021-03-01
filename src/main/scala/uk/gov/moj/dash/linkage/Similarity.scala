@@ -242,7 +242,12 @@ class latlongexplode extends UDF2[Seq[Row], Seq[Row],  Seq[(Row,Row)]]  {
 
 val latlongexplode =  (x: Seq[Row], y: Seq[Row]) => {
  
+  if ((x != null) & (y != null)){
     for (a <- x; b <-y) yield (a,b)
+  } else
+    {List()}
+
+
 
 }
 
