@@ -61,8 +61,6 @@ object DoubleMetaphoneAlt {
   }
 }
 
-
-
 class QgramTokeniser extends UDF1[String, String] {
   override  def call(input: String): String = {
     // This has to be instantiated here (i.e. on the worker node)
@@ -93,8 +91,6 @@ object Q2gramTokeniser {
     new Q2gramTokeniser()
   }
 }
-
-
 
 
 class Q3gramTokeniser extends UDF1[String, String] {
@@ -146,7 +142,6 @@ object Q5gramTokeniser {
   }
 }
 
-
 class Q6gramTokeniser extends UDF1[String, String] {
   override  def call(input: String): String = {
     // This has to be instantiated here (i.e. on the worker node)
@@ -162,13 +157,16 @@ object Q6gramTokeniser {
   }
 }
 
-
-
 class JaroWinklerSimilarity extends UDF2[String, String, Double] {
   override  def call(left: String, right: String): Double = {
     // This has to be instantiated here (i.e. on the worker node)
+
+     if ((left != null) & (right != null)){
     val distance = new similarity.JaroWinklerDistance()
     distance(left, right)
+     } else {
+       0.0
+     }
   }
 }
 
@@ -182,8 +180,12 @@ object JaroWinklerSimilarity {
 class JaccardSimilarity extends UDF2[String, String, Double] {
   override  def call(left: String, right: String): Double = {
     // This has to be instantiated here (i.e. on the worker node)
+
+     if ((left != null) & (right != null)){
     val distance = new similarity.JaccardSimilarity()
-    distance(left, right)
+    distance(left, right)} else {
+       0.0
+     }
   }
 }
 
@@ -198,8 +200,13 @@ object JaccardSimilarity {
 class CosineDistance extends UDF2[String, String, Double] {
   override  def call(left: String, right: String): Double = {
     // This has to be instantiated here (i.e. on the worker node)
+    
+    
+     if ((left != null) & (right != null)){
     val distance = new similarity.CosineDistance()
-    distance(left, right)
+    distance(left, right)} else {
+       1.0
+     }
   }
 }
 
@@ -227,7 +234,6 @@ class DualArrayExplode extends UDF2[Seq[String], Seq[String],  Seq[(String,Strin
 
   DualArrayExplode(x,y)
  
-
   }
 }
 
@@ -246,8 +252,6 @@ val latlongexplode =  (x: Seq[Row], y: Seq[Row]) => {
     for (a <- x; b <-y) yield (a,b)
   } else
     {List()}
-
-
 
 }
 
