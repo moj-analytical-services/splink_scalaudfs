@@ -14,6 +14,7 @@ import org.apache.commons.text.similarity
 import org.apache.commons.codec.language
 import org.apache.commons.codec.language.bm.BeiderMorseEncoder
 import org.apache.commons.codec.language.bm.{Lang, NameType}
+import org.apache.commons.codec.language.Nysiis
 
 class sqlEscape extends UDF1[String, String] {
   override def call(s: String): String = Literal(s).sql
@@ -36,6 +37,21 @@ class guessNameLanguage extends UDF1[String, String] {
 object guessNameLanguage {
   def apply(): guessNameLanguage = {
     new guessNameLanguage()
+  }
+}
+
+class NysiisEncode extends UDF1[String, String] {
+  override def call(input: String): String = {
+    // This has to be instantiated here (i.e. on the worker node)
+
+    val m = new Nysiis()
+    m.encode(input)
+  }
+}
+
+object NysiisEncode {
+  def apply(): NysiisEncode = {
+    new NysiisEncode()
   }
 }
 
