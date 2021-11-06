@@ -217,6 +217,15 @@ lol. sdkman is quite useful isnt it?
 
 ## Progress
 
+v.0.0.10
+
+* added BeiderMorseEncode UDF
+* added NysiisEncode UDF
+* added guessNameLanguage UDF
+
+v.0.0.9
+
+* added null handling on UDFs of the form UDF(string1,string2)
 
 v.0.0.8
 
