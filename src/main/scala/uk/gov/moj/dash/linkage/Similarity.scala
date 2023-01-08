@@ -184,53 +184,6 @@ object JaccardSimilarity {
 }
 
 
-class JaroSimilarity extends UDF2[String, String, Double] {
-  override def call(left: String, right: String): Double = {
-    // This has to be instantiated here (i.e. on the worker node)
-
-
-def jaroSimilarityinScala(s1: String, s2: String): Double = {
-  // Compute the length of the strings
-  val m = s1.length
-  val n = s2.length
-
-  // Initialize the number of matching characters to 0
-  var matching_characters = 0
-
-  // Create a flag array to track which characters have been used
-  val used = Array.fill(m + n)(false)
-
-  // Iterate over the characters in s1 and s2
-  for (i <- 0 until m; j <- 0 until n) {
-    // Check if the characters are equal and within a certain distance from each other
-    if (s1(i) == s2(j) && !used(i) && !used(j) && math.abs(i - j) <= (m - n).max(n - m)) {
-      // If the characters are equal and within the allowed distance, increment the number of matching characters and mark them as used
-      matching_characters += 1
-      used(i) = true
-      used(j) = true
-    }
-  }
-
-  // Compute the Jaro similarity as the number of matching characters divided by the average length of the strings
-  matching_characters.toDouble / (m + n) / 2
-}
-
-    if ((left != null) & (right != null)) {
-      jaroSimilarityinScala(left, right)
-    } else {
-      0.0
-    }
-
-  }}
-
-  object JaroSimilarity {
-  def apply(): JaroSimilarity = {
-    new JaroSimilarity()
-  }
-}
-
-
-
 class CosineDistance extends UDF2[String, String, Double] {
   override def call(left: String, right: String): Double = {
     // This has to be instantiated here (i.e. on the worker node)
