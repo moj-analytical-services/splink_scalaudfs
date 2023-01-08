@@ -12,9 +12,7 @@ import org.apache.spark.sql.api.java.UDF1
 import org.apache.spark.sql.Row
 import org.apache.commons.text.similarity
 import org.apache.commons.codec.language
-import org.apache.commons.codec.language.bm.BeiderMorseEncoder
-import org.apache.commons.codec.language.bm.{Lang, NameType}
-import org.apache.commons.codec.language.Nysiis
+
 
 class sqlEscape extends UDF1[String, String] {
   override def call(s: String): String = Literal(s).sql
@@ -26,49 +24,6 @@ object sqlEscape {
   }
 }
 
-class guessNameLanguage extends UDF1[String, String] {
-  override def call(input: String): String = {
-
-    val m = Lang.instance(NameType.GENERIC)
-    m.guessLanguage(input)
-  }
-}
-
-object guessNameLanguage {
-  def apply(): guessNameLanguage = {
-    new guessNameLanguage()
-  }
-}
-
-class NysiisEncode extends UDF1[String, String] {
-  override def call(input: String): String = {
-    // This has to be instantiated here (i.e. on the worker node)
-
-    val m = new Nysiis()
-    m.encode(input)
-  }
-}
-
-object NysiisEncode {
-  def apply(): NysiisEncode = {
-    new NysiisEncode()
-  }
-}
-
-class BeiderMorseEncode extends UDF1[String, String] {
-  override def call(input: String): String = {
-    // This has to be instantiated here (i.e. on the worker node)
-
-    val m = new BeiderMorseEncoder()
-    m.encode(input)
-  }
-}
-
-object BeiderMorseEncode {
-  def apply(): BeiderMorseEncode = {
-    new BeiderMorseEncode()
-  }
-}
 
 class DoubleMetaphone extends UDF1[String, String] {
   override def call(input: String): String = {
@@ -227,6 +182,54 @@ object JaccardSimilarity {
     new JaccardSimilarity()
   }
 }
+
+
+class JaroSimilarity extends UDF2[String, String, Double] {
+  override def call(left: String, right: String): Double = {
+    // This has to be instantiated here (i.e. on the worker node)
+
+
+def jaroSimilarityinScala(s1: String, s2: String): Double = {
+  // Compute the length of the strings
+  val m = s1.length
+  val n = s2.length
+
+  // Initialize the number of matching characters to 0
+  var matching_characters = 0
+
+  // Create a flag array to track which characters have been used
+  val used = Array.fill(m + n)(false)
+
+  // Iterate over the characters in s1 and s2
+  for (i <- 0 until m; j <- 0 until n) {
+    // Check if the characters are equal and within a certain distance from each other
+    if (s1(i) == s2(j) && !used(i) && !used(j) && math.abs(i - j) <= (m - n).max(n - m)) {
+      // If the characters are equal and within the allowed distance, increment the number of matching characters and mark them as used
+      matching_characters += 1
+      used(i) = true
+      used(j) = true
+    }
+  }
+
+  // Compute the Jaro similarity as the number of matching characters divided by the average length of the strings
+  matching_characters.toDouble / (m + n) / 2
+}
+
+    if ((left != null) & (right != null)) {
+      jaroSimilarityinScala(left, right)
+    } else {
+      0.0
+    }
+
+  }}
+
+  object JaroSimilarity {
+  def apply(): JaroSimilarity = {
+    new JaroSimilarity()
+  }
+}
+
+
 
 class CosineDistance extends UDF2[String, String, Double] {
   override def call(left: String, right: String): Double = {
