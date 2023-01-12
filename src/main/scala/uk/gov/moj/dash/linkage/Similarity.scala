@@ -150,8 +150,8 @@ class JaroWinklerSimilarity extends UDF2[String, String, Double] {
     // This has to be instantiated here (i.e. on the worker node)
 
     if ((left != null) & (right != null)) {
-      val distance = new similarity.JaroWinklerDistance()
-      distance(left, right)
+      val jwsim = new similarity.JaroWinklerSimilarity()
+      jwsim(left, right)
     } else {
       0.0
     }
