@@ -217,6 +217,12 @@ lol. sdkman is quite useful isnt it?
 
 ## Progress
 
+v.0.1.0
+
+
+* updated JaroWinkler UDF to be wrapped from latest version of Apache Commons Text 1.10.0 that included general bugfixes
+
+
 v.0.0.10
 
 * added BeiderMorseEncode UDF
