@@ -253,7 +253,7 @@ object latlongexplode {
 
 class LevDamerauDistance extends UDF2[String, String, Double] {
   override def call(left: String, right: String): Double = {
-    // This has to be instantiated here (i.e. on the worker node)
+
 
     if ((left != null) & (right != null)) {
 
@@ -310,5 +310,57 @@ class LevDamerauDistance extends UDF2[String, String, Double] {
 object LevDamerauDistance {
   def apply(): LevDamerauDistance = {
     new LevDamerauDistance()
+  }
+}
+
+
+
+class JaroSimilarity extends UDF2[String, String, Double] {
+  override def call(left: String, right: String): Double = {
+    
+
+    if ((left != null) & (right != null)) {
+
+       val s1_len = left.length
+        val s2_len = right.length
+        if (s1_len == 0 && s2_len == 0) return 1.0
+        val match_distance = Math.max(s1_len, s2_len) / 2 - 1
+        val s1_matches = Array.ofDim[Boolean](s1_len)
+        val s2_matches = Array.ofDim[Boolean](s2_len)
+        var matches = 0
+        for (i <- 0 until s1_len) {
+            val start = Math.max(0, i - match_distance)
+            val end = Math.min(i + match_distance + 1, s2_len)
+            start until end find { j => !s2_matches(j) && left(i) == right(j) } match {
+                case Some(j) =>
+                    s1_matches(i) = true
+                    s2_matches(j) = true
+                    matches += 1
+                case None =>
+            }
+        }
+        if (matches == 0) return 0.0
+        var t = 0.0
+        var k = 0
+        0 until s1_len filter s1_matches foreach { i =>
+            while (!s2_matches(k)) k += 1
+            if (left(i) != right(k)) t += 0.5
+            k += 1
+        }
+
+        val m = matches.toDouble
+        
+        (m / s1_len + m / s2_len + (m - t) / m) / 3.0
+
+
+    } else {
+      0.0
+    }
+  }
+}
+
+object JaroSimilarity {
+  def apply(): JaroSimilarity = {
+    new JaroSimilarity()
   }
 }
