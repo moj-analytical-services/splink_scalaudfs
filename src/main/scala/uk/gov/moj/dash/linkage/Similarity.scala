@@ -302,7 +302,7 @@ class LevDamerauDistance extends UDF2[String, String, Double] {
 
 
     } else {
-      1.0
+      100.0
     }
   }
 }
