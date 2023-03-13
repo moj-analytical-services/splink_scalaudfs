@@ -46,8 +46,10 @@ spark.udf.registerJavaFunction('sqlEscape', 'uk.gov.moj.dash.linkage.sqlEscape',
 .
 
 spark.udf.registerJavaFunction('levdamerau_distance', 'uk.gov.moj.dash.linkage.LevDamerauDistance',\ 
-                                pyspark.sql.types.StringType())   
+                                pyspark.sql.types.DoubleType())   
 .
+spark.udf.registerJavaFunction('jaro_sim', 'uk.gov.moj.dash.linkage.JaroSimilarity',\ 
+                                pyspark.sql.types.DoubleType())   
 
 from pyspark.sql import types as T
 rt = T.ArrayType(T.StructType([T.StructField("_1",T.StringType()), 
