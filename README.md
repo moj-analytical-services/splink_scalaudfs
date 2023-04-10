@@ -44,8 +44,12 @@ spark.udf.registerJavaFunction('cosine_distance', 'uk.gov.moj.dash.linkage.Cosin
 spark.udf.registerJavaFunction('sqlEscape', 'uk.gov.moj.dash.linkage.sqlEscape',\ 
                                 pyspark.sql.types.StringType())                        
 .
+
+spark.udf.registerJavaFunction('levdamerau_distance', 'uk.gov.moj.dash.linkage.LevDamerauDistance',\ 
+                                pyspark.sql.types.DoubleType())   
 .
-.
+spark.udf.registerJavaFunction('jaro_sim', 'uk.gov.moj.dash.linkage.JaroSimilarity',\ 
+                                pyspark.sql.types.DoubleType())   
 
 from pyspark.sql import types as T
 rt = T.ArrayType(T.StructType([T.StructField("_1",T.StringType()), 
@@ -216,6 +220,15 @@ lol. sdkman is quite useful isnt it?
 
 
 ## Progress
+
+v.0.1.1
+
+* Added levenstein-damerau distance to the UDFs provided.
+
+v.0.1.0
+
+* ensured databricks installations got working jaro_winkler as there was a problem manifesting only on those spark installations.
+* took out some not used udfs in order to make fatjar a bit smaller
 
 v.0.0.10
 
