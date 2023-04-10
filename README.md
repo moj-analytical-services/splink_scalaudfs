@@ -12,6 +12,12 @@ Down the line some additional utility functions were added. More functions will 
 Current plan is to make this package available through the maven/ivy repositories (think PyPI in Python) as `uk.gov.moj.dash.linkage`
 so that it can be accessed more easily from AWS-Glue jobs
 
+## TLDR
+
+Latest jar can be found at:
+jars/scala-udf-similarity-0.1.1_spark3.x.jar
+
+
 
 ---
 
