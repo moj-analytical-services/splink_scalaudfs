@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.gov.moj.dash.linkage</groupId>
   <artifactId>scala-udf-similarity</artifactId>
-  <version>0.1.1</version>
+  <version>0.1.1-EMBEDDINGSDEV</version>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -21,6 +21,11 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
       <version>1.10.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.scalanlp</groupId>
+      <artifactId>breeze_2.12</artifactId>
+      <version>1.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>

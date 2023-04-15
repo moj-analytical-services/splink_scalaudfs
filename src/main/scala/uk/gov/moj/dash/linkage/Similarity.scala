@@ -13,6 +13,8 @@ import org.apache.spark.sql.Row
 import org.apache.commons.text.similarity
 import org.apache.commons.codec.language
 import scala.collection.mutable
+import scala.math._
+import breeze.linalg.{DenseVector, normalize}
 
 
 class sqlEscape extends UDF1[String, String] {
@@ -362,5 +364,24 @@ class JaroSimilarity extends UDF2[String, String, Double] {
 object JaroSimilarity {
   def apply(): JaroSimilarity = {
     new JaroSimilarity()
+  }
+}
+
+class VectorCosineSimilarity extends UDF2[Seq[Double], Seq[Double], Double] {
+  // Step 3: Override the `call` method to compute cosine similarity between two embeddings
+  override def call(embedding1: Seq[Double], embedding2: Seq[Double]): Double = {
+    val vec1 = DenseVector(embedding1.toArray)
+    val vec2 = DenseVector(embedding2.toArray)
+
+    // Normalize the input vectors and compute the dot product
+    val cosineSimilarity = normalize(vec1).dot(normalize(vec2))
+
+    cosineSimilarity
+  }
+}
+
+object VectorCosineSimilarity {
+  def apply(): VectorCosineSimilarity = {
+    new VectorCosineSimilarity()
   }
 }
